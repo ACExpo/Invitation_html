@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fff8f7">
+<title>A little question for Matt ♡</title>
+<style>
+:root{--wine:#742947;--rose:#f6dce5;--cream:#fff9f7;--muted:#9b6679}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:radial-gradient(circle at 20% 12%,#ffe6ed,transparent 35%),radial-gradient(circle at 85% 82%,#f8e1e8,transparent 38%),var(--cream);color:var(--wine)}
+body{min-height:100dvh;display:grid;place-items:center;padding:18px;font-family:Georgia,"Times New Roman",serif}
+.card{width:min(100%,470px);min-height:560px;padding:34px 22px;border:1px solid #efccd8;border-radius:30px;background:rgba(255,255,255,.88);box-shadow:0 24px 70px rgba(105,43,67,.10);display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.page{display:none;width:100%}
+.page.active{display:block}
+.icon{font-size:48px;margin-bottom:12px;animation:float 3s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-7px)}}
+.kicker{font:11px/1.2 Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;color:#ad7b8d;margin-bottom:18px}
+h1{font-size:clamp(30px,8vw,44px);line-height:1.12;margin:10px 0 18px}
+p{font-size:17px;line-height:1.55;color:#875a6c;margin:10px 0 20px}
+button{border:0;border-radius:999px;min-height:48px;padding:13px 24px;margin:6px;font-size:15px;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.primary{background:var(--wine);color:#fff}
+.secondary{background:#fbe8ee;color:var(--wine)}
+.note{min-height:22px;margin-top:12px;font:12px/1.45 Arial,sans-serif;color:#aa8191}
+.arena{position:relative;width:100%;height:190px;margin-top:14px;border:1px dashed #e5b8c8;border-radius:24px;background:linear-gradient(145deg,#fff4f7,#fce8ef);overflow:hidden}
+#yesBtn{position:absolute;left:18px;top:70px}
+#noBtn{position:absolute;right:18px;top:70px;transition:left .15s ease,top .15s ease,right .15s ease}
+.hearts{display:flex;justify-content:center;gap:16px;margin:24px 0 12px}
+.heart-choice{width:78px;height:78px;padding:0;font-size:38px;background:#fff0f5;box-shadow:0 6px 16px rgba(116,41,71,.08)}
+.row{display:flex;flex-wrap:wrap;justify-content:center}
+label{display:block;text-align:left;margin:16px 0 6px;font:12px Arial,sans-serif;color:#80566a}
+input,select{width:100%;min-height:50px;padding:12px;border:1px solid #e7c3d0;border-radius:14px;background:#fff;color:var(--wine);font-size:16px}
+.hidden{display:none!important}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.confetti span{position:absolute;top:-30px;animation:fall 3.4s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:0}}
+</style>
+</head>
+<body>
+<main class="card">
+<section class="page active" id="intro">
+<div class="icon">♡</div><div class="kicker">a very important inquiry</div>
+<h1>Matt, I have a question...</h1>
+<p>Nothing dramatic. Probably.</p>
+<button class="primary" id="listenBtn">I am listening →</button>
+</section>
+
+<section class="page" id="ask">
+<div class="icon">♡</div><div class="kicker">choose carefully</div>
+<h1>Will you go on a date with me?</h1>
+<p>I have generously provided two options.</p>
+<div class="arena" id="arena">
+<button class="primary" id="yesBtn">Obviously, yes ♡</button>
+<button class="secondary" id="noBtn">No, thank you</button>
+</div>
+<div class="note" id="noNote">Both options are equally valid. This is a lie.</div>
+</section>
+
+<section class="page" id="game">
+<div class="icon">♡</div><div class="kicker">a quick compatibility test</div>
+<h1>How good are you at following instructions?</h1>
+<p>Tap the heart with the sparkle.</p>
+<div class="hearts" id="hearts"></div>
+<div class="note" id="gameNote">This is a highly scientific assessment.</div>
+<button class="primary hidden" id="gameNext">Continue →</button>
+</section>
+
+<section class="page" id="favorite">
+<div class="icon">♡</div><div class="kicker">one final concern</div>
+<h1>What if I turn out to be your favorite person?</h1>
+<div class="row">
+<button class="secondary favoriteBtn" data-answer="inconvenient">That sounds inconvenient.</button>
+<button class="primary favoriteBtn" data-answer="risk">I am willing to take the risk.</button>
+</div>
+<div class="note" id="favoriteNote"></div>
+<button class="primary hidden" id="favoriteNext">Continue →</button>
+</section>
+
+<section class="page" id="reward">
+<div class="icon">✿</div><div class="kicker">well. this is getting interesting.</div>
+<h1>I suppose we should arrange a date.</h1>
+<p>Congratulations, Matt. You passed a completely unbiased evaluation conducted by me.</p>
+<p>Your reward? A date with me. Try to contain your excitement. ♡</p>
+<button class="primary" id="rewardBtn">Claim your reward →</button>
+</section>
+
+<section class="page" id="plan">
+<div class="icon">✿</div><div class="kicker">the important details</div>
+<h1>It is a date. ♡</h1>
+<label for="date">WHEN ARE YOU FREE?</label>
+<input id="date" type="date">
+<label for="time">WHAT TIME?</label>
+<select id="time"><option value="">Pick a time</option><option>5:00 PM</option><option>6:00 PM</option><option>7:00 PM</option><option>8:00 PM</option><option>Surprise me</option></select>
+<label for="activity">WHAT IS THE PLAN?</label>
+<select id="activity"><option value="">Choose our adventure</option><option>Dinner 🍝</option><option>Sushi 🍣</option><option>Pizza 🍕</option><option>Coffee ☕</option><option>Something spontaneous ✨</option></select>
+<button class="primary" id="sealBtn">Seal the deal →</button>
+<div class="note" id="formNote"></div>
+</section>
+
+<section class="page" id="done">
+<div class="icon">💌</div><div class="kicker">officially scheduled</div>
+<h1>Wait. You actually said yes? ♡</h1>
+<p id="summary"></p>
+<p>Good. I was going to be charming about it either way.</p>
+<button class="primary" id="shareBtn">Send me the details ↗</button>
+<div class="note">Opens your share menu. Nothing is sent automatically.</div>
+</section>
+</main>
+<div class="confetti" id="confetti"></div>
+
+<script>
+(function(){
+"use strict";
+var pages=["intro","ask","game","favorite","reward","plan","done"];
+var dodges=0;
+var heartRound=0;
+var winning=0;
+var result="";
+
+function show(id){
+  pages.forEach(function(name){
+    var el=document.getElementById(name);
+    el.classList.toggle("active",name===id);
+  });
+  window.scrollTo(0,0);
+  if(id==="game"){ startHeartGame(); }
+}
+
+function celebrate(amount){
+  var c=document.getElementById("confetti");
+  c.innerHTML="";
+  for(var i=0;i<amount;i++){
+    var s=document.createElement("span");
+    s.textContent=i%3===0?"✿":"♡";
+    s.style.left=(Math.random()*100)+"%";
+    s.style.animationDelay=(Math.random()*1.1)+"s";
+    s.style.color=i%2===0?"#bd7e98":"#e6a9be";
+    c.appendChild(s);
+  }
+  setTimeout(function(){c.innerHTML="";},4300);
+}
+
+function moveNo(ev){
+  if(ev){ev.preventDefault();ev.stopPropagation();}
+  dodges+=1;
+  var b=document.getElementById("noBtn");
+  var a=document.getElementById("arena");
+  b.style.right="auto";
+  var maxX=Math.max(5,a.clientWidth-b.offsetWidth-8);
+  var maxY=Math.max(5,a.clientHeight-b.offsetHeight-8);
+  var spots=[[.52,.08],[.04,.66],[.52,.67],[.30,.03],[.06,.18],[.44,.38]];
+  var p=spots[(dodges-1)%spots.length];
+  b.style.left=Math.round(maxX*p[0])+"px";
+  b.style.top=Math.round(maxY*p[1])+"px";
+  var labels=["Nice try","Not an option ♡","Persistent, are we?","You can just say yes","Still running ♡"];
+  var notes=["Oh, playing hard to get?","Adorable. And ineffective.","I admire the commitment.","The other button is right there."];
+  b.textContent=labels[Math.min(dodges-1,labels.length-1)];
+  document.getElementById("noNote").textContent=notes[Math.min(dodges-1,notes.length-1)];
+}
+
+function startHeartGame(){
+  heartRound=0;
+  winning=Math.floor(Math.random()*3);
+  document.getElementById("gameNext").classList.add("hidden");
+  document.getElementById("gameNote").textContent="This is a highly scientific assessment.";
+  renderHearts();
+}
+
+function renderHearts(){
+  var box=document.getElementById("hearts");
+  box.innerHTML="";
+  for(var i=0;i<3;i++){
+    (function(index){
+      var b=document.createElement("button");
+      b.className="heart-choice";
+      b.textContent=index===winning?"💖":"♡";
+      b.addEventListener("click",function(){pickHeart(index);});
+      box.appendChild(b);
+    })(i);
+  }
+}
+
+function pickHeart(index){
+  if(index!==winning){
+    document.getElementById("gameNote").textContent="That is technically a heart. Try the sparkly one.";
+    return;
+  }
+  heartRound+=1;
+  if(heartRound<3){
+    winning=(winning+1+Math.floor(Math.random()*2))%3;
+    renderHearts();
+    document.getElementById("gameNote").textContent=heartRound===1?"Oh. It moved. How unfortunate.":"Almost. I promise this is the last time. Probably.";
+    return;
+  }
+  document.getElementById("hearts").innerHTML="<span style='font-size:54px'>💖</span>";
+  document.getElementById("gameNote").textContent="Impressive. You can follow basic instructions. My standards are clearly evolving.";
+  document.getElementById("gameNext").classList.remove("hidden");
+  celebrate(15);
+}
+
+document.getElementById("listenBtn").addEventListener("click",function(){show("ask");});
+document.getElementById("yesBtn").addEventListener("click",function(){show("game");});
+document.getElementById("noBtn").addEventListener("pointerdown",moveNo);
+document.getElementById("noBtn").addEventListener("mouseenter",moveNo);
+document.getElementById("noBtn").addEventListener("click",moveNo);
+document.getElementById("gameNext").addEventListener("click",function(){show("favorite");});
+
+Array.prototype.forEach.call(document.querySelectorAll(".favoriteBtn"),function(btn){
+  btn.addEventListener("click",function(){
+    var answer=btn.getAttribute("data-answer");
+    document.getElementById("favoriteNote").textContent=answer==="risk"?"That was unexpectedly charming. I was not prepared for that.":"Most worthwhile things are. I suppose you can find out.";
+    document.getElementById("favoriteNext").classList.remove("hidden");
+    if(answer==="risk"){celebrate(18);}
+  });
+});
+
+document.getElementById("favoriteNext").addEventListener("click",function(){show("reward");});
+document.getElementById("rewardBtn").addEventListener("click",function(){show("plan");});
+
+var dateInput=document.getElementById("date");
+dateInput.min=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10);
+
+document.getElementById("sealBtn").addEventListener("click",function(){
+  var d=dateInput.value;
+  var t=document.getElementById("time").value;
+  var a=document.getElementById("activity").value;
+  if(!d||!t||!a){
+    document.getElementById("formNote").textContent="All three details, handsome. ♡";
+    return;
+  }
+  var day=new Date(d+"T12:00:00").toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
+  result="Matt said yes! ♡\nDate: "+day+"\nTime: "+t+"\nPlan: "+a;
+  document.getElementById("summary").textContent=day+" at "+t+" · "+a;
+  show("done");
+  celebrate(36);
+});
+
+document.getElementById("shareBtn").addEventListener("click",async function(){
+  if(navigator.share){
+    try{await navigator.share({text:result});return;}catch(e){if(e&&e.name==="AbortError"){return;}}
+  }
+  if(navigator.clipboard){
+    try{await navigator.clipboard.writeText(result);alert("Date details copied! ♡");return;}catch(e){}
+  }
+  window.prompt("Copy your date details:",result);
+});
+})();
+</script>
+</body>
+</html>
