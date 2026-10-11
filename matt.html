@@ -34,6 +34,8 @@ input,select{width:100%;min-height:50px;padding:12px;border:1px solid #e7c3d0;bo
 .confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden}
 .confetti span{position:absolute;top:-30px;animation:fall 3.4s linear forwards}
 @keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:0}}
+.nudge{animation:nudge 1.05s ease-in-out 2}
+@keyframes nudge{0%,100%{transform:scale(1)}50%{transform:scale(1.055);box-shadow:0 0 0 8px rgba(116,41,71,.08)}}
 </style>
 </head>
 <body>
@@ -69,8 +71,8 @@ input,select{width:100%;min-height:50px;padding:12px;border:1px solid #e7c3d0;bo
 <div class="icon">♡</div><div class="kicker">one final concern</div>
 <h1>What if I turn out to be your favorite person?</h1>
 <div class="row">
-<button class="secondary favoriteBtn" data-answer="inconvenient">That sounds inconvenient.</button>
-<button class="primary favoriteBtn" data-answer="risk">I am willing to take the risk.</button>
+<button class="secondary favoriteBtn" id="inconvenientBtn" data-answer="inconvenient">That sounds inconvenient.</button>
+<button class="primary favoriteBtn" id="riskBtn" data-answer="risk">I am willing to take the risk.</button>
 </div>
 <div class="note" id="favoriteNote"></div>
 <button class="primary hidden" id="favoriteNext">Continue →</button>
@@ -205,12 +207,40 @@ document.getElementById("noBtn").addEventListener("mouseenter",moveNo);
 document.getElementById("noBtn").addEventListener("click",moveNo);
 document.getElementById("gameNext").addEventListener("click",function(){show("favorite");});
 
+var inconvenientClicks=0;
 Array.prototype.forEach.call(document.querySelectorAll(".favoriteBtn"),function(btn){
   btn.addEventListener("click",function(){
     var answer=btn.getAttribute("data-answer");
-    document.getElementById("favoriteNote").textContent=answer==="risk"?"That was unexpectedly charming. I was not prepared for that.":"Most worthwhile things are. I suppose you can find out.";
-    document.getElementById("favoriteNext").classList.remove("hidden");
-    if(answer==="risk"){celebrate(18);}
+    var note=document.getElementById("favoriteNote");
+    var next=document.getElementById("favoriteNext");
+    var risk=document.getElementById("riskBtn");
+    var inconvenient=document.getElementById("inconvenientBtn");
+
+    if(answer==="inconvenient"){
+      inconvenientClicks+=1;
+      next.classList.add("hidden");
+
+      if(inconvenientClicks===1){
+        note.textContent="Inconvenient is not the same as bad. Try again. ♡";
+        inconvenient.textContent="Still sounds inconvenient.";
+      }else if(inconvenientClicks===2){
+        note.textContent="Matt. There is very clearly a better answer right there.";
+        inconvenient.textContent="I remain unconvinced.";
+      }else{
+        note.textContent="I admire the commitment. I am still not accepting that answer.";
+        inconvenient.textContent="Fine. Maybe a little tempting.";
+      }
+
+      risk.classList.remove("nudge");
+      void risk.offsetWidth;
+      risk.classList.add("nudge");
+      return;
+    }
+
+    note.textContent="That was unexpectedly charming. I was not prepared for that.";
+    next.classList.remove("hidden");
+    risk.classList.remove("nudge");
+    celebrate(18);
   });
 });
 
